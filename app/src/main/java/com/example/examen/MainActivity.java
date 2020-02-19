@@ -6,6 +6,8 @@ import android.os.Bundle;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -31,10 +33,16 @@ public class MainActivity extends AppCompatActivity {
                 //para crear tabla, execute
                 st.execute(CREATE_POSTGRES);
 
-                st.executeUpdate("INSERT INTO MAITE (ENTRADA,SALIDA) VALUES ('HOLA','ADIOS')");
+                st.executeUpdate("INSERT INTO MAITE (ENTRADA,SALIDA) VALUES ('ISHA','MAITE')");
 
-                
+                PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM MAITE");
+                ResultSet resultSet = preparedStatement.executeQuery();
 
+
+                while (resultSet.next()){
+                    System.out.println(resultSet.getString(1) + " " + resultSet.getString(2));
+
+                }
 
 
 
@@ -58,10 +66,6 @@ public class MainActivity extends AppCompatActivity {
 
     //maite es el nombre de la tabla
     //poner ejemplos de todos los tipos INT, VARCHAR Y TAL
-    private static final String CREATE_POSTGRES = "CREATE TABLE IF NOT EXISTS MAITE"
-            + "("
-            +  "Entrada TEXT,"
-            +  "Salida TEXT,"
-            + "UNIQUE (" + "Entrada" + "))";
+    private static final String CREATE_POSTGRES = "CREATE TABLE IF NOT EXISTS MAITE (ENTRADA TEXT, SALIDA TEXT)";
 }
 
